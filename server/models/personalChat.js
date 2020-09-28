@@ -8,12 +8,12 @@ const personalChatSchema=new mongoose.Schema({
             ref:"User"
         }
     ],
-    messages:[
+    chats:[
         {
             type:ObjectId,
             ref:"Message"
         }
     ]
-})
+},{timestamps:true})
 
 module.exports=mongoose.model("PersonalChat",personalChatSchema)

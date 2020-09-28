@@ -3,18 +3,22 @@ const {ObjectId}=mongoose.Schema.Types;
 
 const userSchema=new mongoose.Schema({
     fullname:{
-        type:String
+        type:String,
+       
     },
     username:{
-        type:String
+        type:String,
+        
     },
     password:{
-        type:String
-    },
-    dp:{
-        type:String
+        type:String,
+       
     },
     phone:{
+        type:String,
+       
+    },
+    dp:{
         type:String
     },
     email:{
