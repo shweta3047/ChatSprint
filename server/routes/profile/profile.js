@@ -19,17 +19,23 @@ router.put('/addUser',isLogin,(req,res)=>{
     const receiverId=req.body.receiverId;
     const senderId=req.user._id;
     User.findByIdAndUpdate(req.user._id,{$push:{savedUsers:receiverId}},{new:true})
-    .select('_id username')
+    .select('-password')
     .then(updatedUser=>{
-        PersonalChat.findOne({members:{$in:{receiverId,senderId}}})
+        PersonalChat.findOne({$and:[{members:{$in:[receiverId]}},{members:{$in:[senderId]}}]})
         .then(dm=>{
             if(!dm){
                 const newDm=new PersonalChat({
-                    members:[{senderId},{receiverId}]
+                    members:[senderId,receiverId]
                 })
+                newDm.save()
+                .then(updatedDm=>{
+                    return res.json({updatedUser,updatedDm})
+                }).catch(err=>console.log(err))
             }
-        })
-        return res.json({updatedUser})
+            else
+            return res.json({updatedUser,dm})
+        }).catch(err=>console.log(err))
+        
     }).catch(err=>console.log(err))
 })
 
