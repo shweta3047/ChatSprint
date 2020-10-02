@@ -15,28 +15,25 @@ router.get('/profile/:id',isLogin,(req,res)=>{
     }).catch(err=>console.log(err))
 })
 
-router.put('/addUser',isLogin,(req,res)=>{
+router.put('/addFriend',isLogin,(req,res)=>{
     const receiverId=req.body.receiverId;
     const senderId=req.user._id;
-    User.findByIdAndUpdate(req.user._id,{$push:{savedUsers:receiverId}},{new:true})
+    User.findByIdAndUpdate(senderId,{$push:{savedUsers:receiverId}},{new:true})
     .select('-password')
     .then(updatedUser=>{
-        PersonalChat.findOne({$and:[{members:{$in:[receiverId]}},{members:{$in:[senderId]}}]})
-        .then(dm=>{
-            if(!dm){
-                const newDm=new PersonalChat({
-                    members:[senderId,receiverId]
-                })
-                newDm.save()
-                .then(updatedDm=>{
-                    return res.json({updatedUser,updatedDm})
-                }).catch(err=>console.log(err))
-            }
-            else
-            return res.json({updatedUser,dm})
+            return res.json({updatedUser})
         }).catch(err=>console.log(err))
         
-    }).catch(err=>console.log(err))
+})
+
+router.put('/removeFriend',isLogin,(req,res)=>{
+    const receiverId=req.body.receiverId;
+    const senderId=req.user._id;
+    User.findByIdAndUpdate(senderId,{$pull:{savedUsers:receiverId}},{new:true})
+    .select('-password')
+    .then(updatedUser=>{
+            return res.json({updatedUser})
+        }).catch(err=>console.log(err))
 })
 
 

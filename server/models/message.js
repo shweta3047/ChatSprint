@@ -3,10 +3,18 @@ const {ObjectId}=mongoose.Schema.Types;
 
 const messageSchema=new mongoose.Schema({
     message:{
-        type:String
-    },
-    messageType:{
-        type:String
+        text:{
+            type:String
+        },
+        media:{
+            type:String
+        },
+        location:{
+            type:String
+        },
+        file:{
+            type:String
+        }
     },
     senderId:{
         type:ObjectId,

@@ -7,7 +7,7 @@ router.get("/showFriends",isLogin,(req,res)=>{
     try{
         User.findById(req.user._id)
         .populate('savedUsers','fullname username dp')
-        .select('savedUsers')
+        .select('-password')
         .then(user=>{
             if(!user){
                return res.status(422).json({error:"User not found!!"})
