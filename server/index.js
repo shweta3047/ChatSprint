@@ -10,8 +10,7 @@ const loginRoute=require('./routes/auth/login');
 const signupRoute=require('./routes/auth/signup');
 const searchRoute=require('./routes/search/search');
 const profileRoute=require('./routes/profile/profile')
-const chatsRoute=require('./routes/chats/chat');
-const friendListRoute=require('./routes/display/friendList');
+const displayRoute=require('./routes/display/display');
 const personalChat=require('./routes/chats/personalChat')
 
 mongoose.connect(MONGOURI,{useNewUrlParser:true,useUnifiedTopology:true});
@@ -33,8 +32,7 @@ app.use(signupRoute);
 app.use(searchRoute);
 app.use(profileRoute);
 app.use(personalChat);
-app.use(chatsRoute);
-app.use(friendListRoute)
+app.use(displayRoute)
 
 app.listen(PORT,()=>{
     console.log("server is listening at PORT "+PORT);
